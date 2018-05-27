@@ -329,7 +329,7 @@ class Daemon(_EntryPoint):
         options = self.options
 
         # prepare mounter object
-        prompt = udiskie.prompt.password(options['password_prompt'])
+        unlock = udiskie.prompt.unlock(options['password_prompt'])
         browser = udiskie.prompt.browser(options['file_manager'])
         cache = None
 
@@ -342,7 +342,7 @@ class Daemon(_EntryPoint):
 
         self.mounter = udiskie.mount.Mounter(
             config=config.device_config,
-            prompt=prompt,
+            unlock=unlock,
             browser=browser,
             cache=cache,
             cache_hint=options['password_cache'],
@@ -512,10 +512,10 @@ class Mount(_EntryPoint):
                 'options': [o.strip() for o in options['options'].split(',')],
             }))
 
-        prompt = udiskie.prompt.password(options['password_prompt'])
+        unlock = udiskie.prompt.unlocker(options['password_prompt'])
         mounter = udiskie.mount.Mounter(
             config=device_config,
-            prompt=prompt,
+            unlock=unlock,
             udisks=self.udisks)
 
         recursive = options['recursive']
